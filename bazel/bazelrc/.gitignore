@@ -1,0 +1,2 @@
+# User-specific Bazel build configuration options
+user.bazelrc

@@ -1,0 +1,10 @@
+{
+    "files.watcherExclude": {
+        "**/target": true
+    },
+    "files.associations": {
+        "*.dockerfile.*": "dockerfile",
+        "iostream": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}
