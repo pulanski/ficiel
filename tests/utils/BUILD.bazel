@@ -1,0 +1,13 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+cc_test(
+    name = "utils_test",
+    srcs = glob(["*.cc"]),
+    deps = [
+        "//include/utils",
+        "//include/utils/data_structures",
+        "//third_party/fmt",
+        "@com_google_googletest//:gtest_main",
+        "@sfml",
+    ],
+)

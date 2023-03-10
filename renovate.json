@@ -1,0 +1,77 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    "config:bazel",
+    "config:cpp",
+    "config:docker",
+    "config:github-actions",
+    "config:buildkite"
+  ],
+  "labels": [
+    "bazel",
+    "cpp",
+    "docker",
+    "github-actions",
+    "buildkite"
+  ],
+  "packageRules": [
+    {
+      "packagePatterns": [
+        "^//docker/"
+      ],
+      "automerge": true
+    }
+  ],
+  "baseBranches": [
+    "main"
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true
+  },
+  "docker": {
+    "enabled": true,
+    "schedule": [
+      "after 10pm every weekday"
+    ],
+    "separatePatchReleases": true,
+    "commitMessagePrefix": "chore(docker): ",
+    "baseImageMaintenance": {
+      "enabled": true,
+      "maxDaysSinceLastUpdate": 30,
+      "schedule": [
+        "after 8pm every day"
+      ],
+      "exclude": [
+        "^alpine:3.11"
+      ]
+    }
+  },
+  "githubActions": {
+    "enabled": true,
+    "ignorePatterns": [
+      "^ci/",
+      "^test/"
+    ],
+    "actions": [
+      {
+        "trigger": "push",
+        "workflowFileMatch": [
+          "**/.github/workflows/*"
+        ]
+      },
+      {
+        "trigger": "pull_request",
+        "workflowFileMatch": [
+          "**/.github/workflows/*"
+        ]
+      }
+    ]
+  },
+  "buildkite": {
+    "enabled": true,
+    "pipelineFileMatch": [
+      "**/.buildkite/pipeline.yml"
+    ]
+  },
+}

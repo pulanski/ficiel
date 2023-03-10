@@ -1,0 +1,77 @@
+# Specify user-specific configurations for Bazel below, if any
+
+# For example, if you want to use a different C++ compiler than the default
+# one, you can uncomment the following lines and change the paths accordingly.
+
+build --action_env=BAZEL_COMPILER=clang
+build --action_env=CC=clang
+build --action_env=CXX=clang++
+
+# Additionally, you can set the version of the C++ compiler along with specific
+# flags. This example is focused around C++, but you can specify toolchains for
+# other languages as well.
+
+# NOTE: Using the Bazel syntax seen below of `build:linux` will only apply the
+# configuration to Linux builds. You can also use `build:macos` and
+# `build:windows` to specify configurations for those platforms. Using this
+# assumes you have enabled the `--enable_platform_specific_config` flag in your `
+# bazelrc` file (which is provided initially in the //bazel/bazelrc/common
+# bazelrc during the scaffolding process of `otter new`).
+
+################################################################################
+# Compiler version configuration
+################################################################################
+
+build --cxxopt='-std=c++20'
+# build:linux --cxxopt='-std=c++14'
+# build:macos --cxxopt='-std=c++14'
+# build:windows --cxxopt='-std:c++14' # Note slightly different syntax.
+
+################################################################################
+# Compiler flags configuration
+################################################################################
+
+build --cxxopt='-Wall' --host_cxxopt='-Wall'
+build --cxxopt='-Wextra' --host_cxxopt='-Wextra'
+build --cxxopt='-Wno-strict-aliasing' --host_cxxopt='-Wno-strict-aliasing'
+build --cxxopt='-Wno-sign-compare' --host_cxxopt='-Wno-sign-compare'
+build --cxxopt='-Wno-unused-parameter' --host_cxxopt='-Wno-unused-parameter'
+build --cxxopt='-Wno-missing-field-initializers' --host_cxxopt='-Wno-missing-field-initializers'
+build --cxxopt='-Wno-ignored-qualifiers' --host_cxxopt='-Wno-ignored-qualifiers'
+build --cxxopt='-Wno-deprecated-declarations' --host_cxxopt='-Wno-deprecated-declarations'
+
+# ignore -Wunused-private-field
+build --cxxopt='-Wno-unused-private-field' --host_cxxopt='-Wno-unused-private-field'
+
+# use libc++ instead of libstdc++
+build --cxxopt='-stdlib=libc++' --host_cxxopt='-stdlib=libc++'
+
+build --cxxopt='-I./include' --host_cxxopt='-I./include'
+build --cxxopt='-I./third_party' --host_cxxopt='-I./third_party'
+
+# -lsfml-graphics -lsfml-window -lsfml-system
+build --linkopt='-lsfml-graphics' --host_linkopt='-lsfml-graphics'
+build --linkopt='-lsfml-window' --host_linkopt='-lsfml-window'
+build --linkopt='-lsfml-system' --host_linkopt='-lsfml-system'
+
+# IMPORTANT NOTE: The flags above are used to demonstrate what kinds of
+# configuration options you can set. It is not recommended to modify core
+# toolchains in this file. Instead, you should create a new bazelrc file
+# in the //bazel/bazelrc directory (e.g. //bazel/bazelrc/cc.bazelrc),
+# add the configuration there, and then import it in the root bazelrc with
+# configurations which have been agreed upon that everyone working on the project
+# should have. If you're working with only yourself or a small team, you can
+# be more flexible with your configurations, but it is still recommended to
+# keep them in a separate bazelrc file and import them into the root bazelrc
+# TODO add documentation here
+build --disk_cache=~/.cache/bazel-disk
+fetch --disk_cache=~/.cache/bazel-disk
+query --disk_cache=~/.cache/bazel-disk
+sync --disk_cache=~/.cache/bazel-disk
+test --disk_cache=~/.cache/bazel-disk
+
+build --show_timestamps
+build --worker_verbose
+
+# Enable bzlmod support
+common --experimental_enable_bzlmod

@@ -1,0 +1,66 @@
+# Declares that this directory is the root of a Bazel workspace.
+# See https://docs.bazel.build/versions/main/build-ref.html#workspace
+# for more details.
+
+workspace(
+    # How this workspace would be referenced
+    # with absolute labels from another workspace
+    # (e.g. `@foo//path/to:target`).
+    name = "ficiel",
+)
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# load("//bazel/deps/bzl/http_archive:http_archive_repositories.bzl", "http_archive_deps")
+
+# Handles bringing third-party rulesets (e.g. `rules_go`,
+# `rules_cc`, etc.) into scope for usage via Bazel using
+# http_archive as the dependency mechanism. See
+# https://bazel.build/reference/be/overview#rules
+# and https://bazel.build/rules/lib/repo/http#http_archive
+# for more details on http_archive and rulesets in general.
+# http_archive_deps()
+
+# Hedron
+HEDRON_SHA = "b0a8af42e06108ec62382703daf27f7d8d247fd1b930f249045c70cd9d22f72e"
+
+HEDRON_COMMIT = "c200ce8b3e0baa04fa5cc3fb222260c9ea06541f"
+
+# Hedron's Compile Commands Extractor for Bazel
+# See https://github.com/hedronvision/bazel-compile-commands-extractor for more details.
+# NOTE: I've been incredibly happy with this tool. It's been a huge help in getting
+# IDE support for third-party libraries working when using Bazel w/ C family languages,
+# primarily C++
+http_archive(
+    name = "hedron_compile_commands",
+    sha256 = HEDRON_SHA,
+    strip_prefix = "bazel-compile-commands-extractor-%s" % HEDRON_COMMIT,
+    url = "https://github.com/hedronvision/bazel-compile-commands-extractor/archive/%s.tar.gz" % HEDRON_COMMIT,
+)
+
+# new_local_repository(
+#     name = "sfml",
+#     build_file = "third_party/SFML/BUILD.bazel",
+#     path = "/opt/homebrew/Cellar/sfml/2.5.1_2",  # M1 Mac <-- Replace this with your SFML path
+# )
+
+load("//:sfml.bzl", "sfml_repository")
+
+sfml_repository()
+
+# http_archive(
+#     name = "com_github_storypku_rules_folly",
+#     sha256 = "16441df2d454a6d7ef4da38d4e5fada9913d1f9a3b2015b9fe792081082d2a65",
+#     strip_prefix = "rules_folly-0.2.0",
+#     urls = [
+#         "https://github.com/storypku/rules_folly/archive/v0.2.0.tar.gz",
+#     ],
+# )
+
+# load("@com_github_storypku_rules_folly//bazel:folly_deps.bzl", "folly_deps")
+
+# folly_deps()
+
+# load("@com_github_nelhage_rules_boost//:boost/boost.bzl", "boost_deps")
+
+# boost_deps()

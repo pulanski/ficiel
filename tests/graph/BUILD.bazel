@@ -1,0 +1,11 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+cc_test(
+    name = "graph_test",
+    srcs = ["graph_test.cc"],
+    deps = [
+        "//include/graph",
+        "@com_google_googletest//:gtest_main",
+        "@sfml",
+    ],
+)
